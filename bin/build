@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+cd "`dirname "$0"`/../src"
+
+IMAGE=${IMAGE:-"mauchede/cakebox"}
+TAG=${TAG:-"1.8.3"}
+
+docker rmi $IMAGE:$TAG || :
+docker build -t $IMAGE:$TAG .
