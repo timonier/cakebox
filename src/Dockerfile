@@ -32,9 +32,6 @@ RUN set -x \
     && find . -type d -name ".git" | xargs rm -rf \
     && rm -rf /root/.cache /root/.config /root/.composer /root/.local /root/.npm /usr/bin/node /usr/local/bin/* /usr/local/lib/* /usr/share/nginx /var/lib/apt/lists/* /var/www/html
 
-COPY cakebox /var/www/cakebox
-COPY nginx /etc/nginx
-COPY php /etc/php5
-COPY entrypoint.sh /entrypoint.sh
+COPY ./root /
 
 ENTRYPOINT [ "/entrypoint.sh" ]
