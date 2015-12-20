@@ -1,18 +1,18 @@
 ### Installation
 
-Pull the image `mauchede/cakebox`:
+Pull the image `timonier/cakebox`:
 
 ```bash
 # Get the latest image
-docker pull mauchede/cakebox
+docker pull timonier/cakebox
 
 # Or get a specific version
 
 # Get the version 1.8.3
-docker pull mauchede/cakebox:1.8.3
+docker pull timonier/cakebox:1.8.3
 ```
 
-### Usage
+### Usage
 
 It is possible to change the [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist) via the environment variables:
 
@@ -24,7 +24,7 @@ docker run \
     -p 80:80 \
     -v /etc/passwd:/etc/passwd:ro \
     -v $PWD:$PWD \
-    mauchede/cakebox
+    timonier/cakebox
 
 # Go to the URL "localhost"
 ```
@@ -45,4 +45,4 @@ __Note__: Use the script `bin/build` to test your modifications locally.
 * [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist)
 * [command "docker pull"](https://docs.docker.com/reference/commandline/pull/)
 * [command "docker run"](https://docs.docker.com/reference/run/)
-* [image "mauchede/cakebox"](https://hub.docker.com/r/mauchede/cakebox/)
+* [image "timonier/cakebox"](https://hub.docker.com/r/timonier/cakebox/)
