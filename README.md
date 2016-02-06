@@ -1,4 +1,4 @@
-### Installation
+# Installation
 
 Pull the image `timonier/cakebox`:
 
@@ -12,7 +12,7 @@ docker pull timonier/cakebox
 docker pull timonier/cakebox:1.8.3
 ```
 
-### Usage
+# Usage
 
 It is possible to change the [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist) via the environment variables:
 
@@ -24,12 +24,12 @@ docker run \
     -p 80:80 \
     -v /etc/passwd:/etc/passwd:ro \
     -v $PWD:$PWD \
-    timonier/cakebox
+    timonier/cakebox:1.8.3
 
 # Go to the URL "localhost"
 ```
 
-### Contributing
+# Contributing
 
 1. Fork it.
 2. Create your branch: `git checkout -b my-new-feature`.
@@ -39,7 +39,7 @@ docker run \
 
 __Note__: Use the script `bin/build` to test your modifications locally.
 
-### Links
+# Links
 
 * [cakebox](https://github.com/Cakebox/cakebox)
 * [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist)

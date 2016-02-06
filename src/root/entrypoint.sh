@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
 configure_application() {
     sed -i "s@%$1%@$2@g" /etc/nginx/nginx.conf
