@@ -2,69 +2,78 @@ FROM debian:jessie
 MAINTAINER Morgan Auchede <morgan.auchede@gmail.com>
 
 ENV \
-    CA_CERTIFICATES_VERSION=20141019 \
     CAKEBOX_VERSION=1.8.3 \
-    DEBIAN_FRONTEND=noninteractive \
-    NGINX_VERSION=1.6.2 \
-    PHP_VERSION=5.6.14 \
-    PHP_JSON_VERSION=1.3.6
+    S6_OVERLAY_VERSION=1.17.1.2 \
+    SYSLOG_STDOUT_VERSION=1.1.1
 
 RUN set -x \
 
     # Prepare system
 
+    && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list.d/nginx.list \
+    && apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
     && apt-get update \
 
     # Install packages
 
     && BUILD_DEPS="curl git npm" \
+
     && apt-get install -y --no-install-recommends \
            $BUILD_DEPS \
-           ca-certificates=$CA_CERTIFICATES_VERSION* \
-           nginx=$NGINX_VERSION* \
-           php5-cli=$PHP_VERSION* \
-           php5-common=$PHP_VERSION* \
-           php5-curl=$PHP_VERSION* \
-           php5-fpm=$PHP_VERSION* \
-           php5-json=$PHP_JSON_VERSION* \
-    && ln -s "$(which nodejs)" /usr/bin/node \
+           ca-certificates \
+           nginx \
+           php5-cli \
+           php5-curl \
+           php5-fpm \
+           php5-json \
+
+    && ln -s $(which nodejs) /usr/bin/node \
+
     && npm install -g \
            bower \
+
     && curl -sL "https://getcomposer.org/installer" | php -- --install-dir=/usr/bin \
     && mv /usr/bin/composer.phar /usr/bin/composer \
 
     # Install cakebox
 
-    && git clone https://github.com/Cakebox/cakebox /var/www/cakebox \
-    && git -C /var/www/cakebox checkout v$CAKEBOX_VERSION \
-    && cd /var/www/cakebox \
-    && composer install --no-dev --optimize-autoloader \
-    && bower --allow-root install \
+    && rm -rf /var/www/* \
+    && git clone https://github.com/Cakebox/cakebox /var/www \
+    && git -C /var/www checkout v$CAKEBOX_VERSION \
+    && sh -c "cd /var/www && composer install --no-dev --optimize-autoloader" \
+    && sh -c "cd /var/www && bower --allow-root install" \
 
-    # Configure nginx
+    # Install s6-overlay
 
-    && ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log \
+    && curl -ksL "https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz" | tar fxz - -C / \
+
+    # Install syslog-stdout
+
+    && curl -ksL "https://github.com/timonier/syslog-stdout/releases/download/v$SYSLOG_STDOUT_VERSION/syslog-stdout.tar.gz" | tar fxz - -C /usr/sbin \
 
     # Clean
 
     && apt-get remove -y --purge \
            $BUILD_DEPS \
     && apt-get autoremove -y --purge \
+
     && find . -type d -name ".git" | xargs rm -rf \
     && rm -rf \
+           /etc/nginx/conf.d/default.conf \
            /root/.cache \
            /root/.config \
            /root/.composer \
            /root/.local \
            /root/.npm \
+           /tmp/* \
            /usr/bin/composer \
            /usr/bin/node \
            /usr/local/lib/* \
            /usr/share/nginx \
            /var/lib/apt/lists/* \
+           /var/www/.git \
            /var/www/html
 
-COPY ./root /
+COPY ./rootfs /
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/init" ]
