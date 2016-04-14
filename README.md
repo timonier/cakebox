@@ -16,7 +16,7 @@ docker pull timonier/cakebox:1.8.3
 
 ## Usage
 
-It is possible to change the [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist) via the environment variables:
+Run the application via `docker run`. It is possible to change the [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist) via the environment variables:
 
 ```sh
 docker run \
