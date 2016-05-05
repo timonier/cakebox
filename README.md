@@ -5,7 +5,7 @@
 Pull the image `timonier/cakebox`:
 
 ```sh
-# Get the latest image (version 1.8.5)
+# Get the latest image (version 1.8.6)
 docker pull timonier/cakebox
 
 # Or get a specific version
