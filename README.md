@@ -5,7 +5,7 @@
 Pull the image `timonier/cakebox`:
 
 ```sh
-# Get the latest image
+# Get the latest image (version 1.8.4)
 docker pull timonier/cakebox
 
 # Or get a specific version
@@ -26,7 +26,7 @@ docker run \
     -p 80:80 \
     -v /etc/passwd:/etc/passwd:ro \
     -v $PWD:$PWD \
-    timonier/cakebox:1.8.3
+    timonier/cakebox
 
 # Go to the URL "localhost"
 ```

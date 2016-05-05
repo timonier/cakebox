@@ -2,7 +2,7 @@ FROM debian:jessie
 MAINTAINER Morgan Auchede <morgan.auchede@gmail.com>
 
 ENV \
-    CAKEBOX_VERSION=1.8.3 \
+    CAKEBOX_VERSION=1.8.4 \
     DEBIAN_FRONTEND=noninteractive \
     S6_OVERLAY_VERSION=1.17.1.2 \
     SYSLOG_STDOUT_VERSION=1.1.1
