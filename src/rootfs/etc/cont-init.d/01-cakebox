@@ -13,6 +13,9 @@ sed -i "s@%RIGHTS_CAN_PLAY_MEDIA%@${RIGHTS_CAN_PLAY_MEDIA:-"TRUE"}@g" /usr/share
 sed -i "s@%RIGHTS_CAN_DOWNLOAD_FILE%@${RIGHTS_CAN_DOWNLOAD_FILE:-"TRUE"}@g" /usr/share/cakebox/config/default.php
 sed -i "s@%RIGHTS_CAN_ARCHIVE_DIRECTORY%@${RIGHTS_CAN_ARCHIVE_DIRECTORY:-"FALSE"}@g" /usr/share/cakebox/config/default.php
 sed -i "s@%RIGHTS_CAN_DELETE%@${RIGHTS_CAN_DELETE:-"FALSE"}@g" /usr/share/cakebox/config/default.php
+sed -i "s@%RIGHTS_CAN_CREATE%@${RIGHTS_CAN_CREATE:-"TRUE"}@g" /usr/share/cakebox/config/default.php
+sed -i "s@%RIGHTS_CAN_RENAME%@${RIGHTS_CAN_RENAME:-"TRUE"}@g" /usr/share/cakebox/config/default.php
+sed -i "s@%RIGHTS_CAN_UPLOAD%@${RIGHTS_CAN_UPLOAD:-"TRUE"}@g" /usr/share/cakebox/config/default.php
 sed -i "s@%BS_LOGIN%@${BS_LOGIN:-""}@g" /usr/share/cakebox/config/default.php
 sed -i "s@%BS_PASSWORD%@${BS_PASSWORD:-""}@g" /usr/share/cakebox/config/default.php
 sed -i "s@%BS_API_KEY%@${BS_API_KEY:-""}@g" /usr/share/cakebox/config/default.php
