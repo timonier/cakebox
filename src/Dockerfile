@@ -1,12 +1,14 @@
-FROM debian:jessie
-MAINTAINER Morgan Auchede <morgan.auchede@gmail.com>
+FROM timonier/php:fpm
+
+LABEL \
+    maintainer="Morgan Auchede <morgan.auchede@gmail.com>"
 
 ENV \
-    CAKEBOX_VERSION=1.8.6 \
-    S6_OVERLAY_VERSION=1.17.1.2 \
-    SYSLOG_STDOUT_VERSION=1.1.1
+    CAKEBOX_VERSION=latest \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_KEEP_ENV=1
 
-RUN set -x \
+RUN set -ex \
 
     # Prepare system
 
@@ -14,57 +16,42 @@ RUN set -x \
 
     && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list.d/nginx.list \
     && apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
+
     && apt-get update \
 
     # Install packages
 
-    && BUILD_DEPS="curl git npm" \
+    && export BUILD_DEPS="npm" \
 
-    && apt-get install -y --no-install-recommends \
-           $BUILD_DEPS \
-           ca-certificates \
+    && apt-get install --no-install-recommends --yes \
+           ${BUILD_DEPS} \
+           gettext \
            nginx \
-           php5-cli \
-           php5-curl \
-           php5-fpm \
-           php5-json \
 
     && ln -s $(which nodejs) /usr/bin/node \
     && npm install -g \
            bower \
 
-    && curl -sL "https://getcomposer.org/installer" | php -- --install-dir=/usr/bin \
+    && curl --location "https://getcomposer.org/installer" | php -- --install-dir /usr/bin \
     && mv /usr/bin/composer.phar /usr/bin/composer \
 
-    # Configure nginx
+    # Install cakebox/cakebox
 
-    && mkdir -p /var/tmp/nginx \
-    && chown www-data:www-data /var/tmp/nginx \
+    && export $(curl "https://raw.githubusercontent.com/timonier/version-lister/release/generated/cakebox/${CAKEBOX_VERSION}" | xargs) \
 
-    # Install cakebox
-
-    && git clone https://github.com/Cakebox/cakebox /usr/share/cakebox \
-    && git -C /usr/share/cakebox checkout v$CAKEBOX_VERSION \
+    && git clone https://github.com/cakebox/cakebox /usr/share/cakebox \
+    && git -C /usr/share/cakebox checkout "v${CAKEBOX_VERSION}" \
     && composer install --no-dev --optimize-autoloader --working-dir /usr/share/cakebox \
     && sh -c "cd /usr/share/cakebox && bower --allow-root install" \
 
-    # Install s6-overlay
-
-    && curl -sL "https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz" | tar fxz - -C / \
-
-    # Install syslog-stdout
-
-    && curl -sL "https://github.com/timonier/syslog-stdout/releases/download/v$SYSLOG_STDOUT_VERSION/syslog-stdout.tar.gz" | tar fxz - -C /usr/sbin \
-
     # Clean
 
-    && apt-get remove -y --purge \
-           $BUILD_DEPS \
-    && apt-get autoremove -y --purge \
+    && apt-get remove --purge --yes \
+           ${BUILD_DEPS} \
+    && apt-get autoremove --purge --yes \
 
-    && rm -rf \
+    && rm --force --recursive \
            /etc/nginx/conf.d/default.conf \
-           /etc/php5/fpm/pool.d/www.conf \
            /root/.cache \
            /root/.config \
            /root/.composer \
@@ -73,12 +60,10 @@ RUN set -x \
            /tmp/* \
            /usr/bin/composer \
            /usr/bin/node \
-           /usr/local/lib/* \
+           /usr/local/lib/node_modules \
            /usr/share/cakebox/.git \
            /usr/share/cakebox/config/default.php.dist \
            /usr/share/nginx \
            /var/lib/apt/lists/*
 
 COPY ./rootfs /
-
-ENTRYPOINT [ "/init" ]

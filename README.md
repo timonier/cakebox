@@ -1,34 +1,21 @@
 # README
 
-## Installation
-
-Pull the image `timonier/cakebox`:
-
-```sh
-# Get the latest image (version 1.8.6)
-docker pull timonier/cakebox
-
-# Or get a specific version
-
-# Get the version 1.8.3
-docker pull timonier/cakebox:1.8.3
-```
+Browse, watch, manage and share your files
 
 ## Usage
 
-Run the application via `docker run`. It is possible to change the [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist) via the environment variables:
+Run the application via `docker run`. It is possible to change the [cakebox options](https://github.com/cakebox/cakebox/blob/master/config/default.php.dist) via the environment variables:
 
 ```sh
 docker run \
-    -e CAKEBOX_USER=$USER \
-    -e CAKEBOX_ROOT=$PWD \
-    -e RIGHTS_CAN_DELETE=TRUE \
-    -p 80:80 \
-    -v /etc/passwd:/etc/passwd:ro \
-    -v $PWD:$PWD \
+    --env "CAKEBOX_USER=${USER}" \
+    --env "CAKEBOX_ROOT=${PWD}" \
+    --env RIGHTS_CAN_DELETE=TRUE \
+    --publish 80:80 \
+    --volume /etc/passwd:/etc/passwd:ro \
+    --volume "${PWD}:${PWD}" \
     timonier/cakebox
-
-# Go to the URL "localhost"
+# Go to "http://localhost/"
 ```
 
 ## Contributing
@@ -43,10 +30,8 @@ __Note__: Use the script `bin/build` to test your modifications locally.
 
 ## Links
 
-* [cakebox](https://github.com/Cakebox/cakebox)
-* [cakebox options](https://github.com/Cakebox/cakebox/blob/master/config/default.php.dist)
-* [command "docker pull"](https://docs.docker.com/reference/commandline/pull/)
+* [cakebox/cakebox](https://github.com/cakebox/cakebox)
 * [command "docker run"](https://docs.docker.com/reference/run/)
 * [image "timonier/cakebox"](https://hub.docker.com/r/timonier/cakebox/)
-* [s6-overlay](https://github.com/just-containers/s6-overlay)
-* [syslog-stdout](https://github.com/timonier/syslog-stdout)
+* [timonier/dumb-entrypoint](https://github.com/timonier/dumb-entrypoint)
+* [timonier/version-lister](https://github.com/timonier/version-lister)

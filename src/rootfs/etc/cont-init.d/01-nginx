@@ -1,3 +1,0 @@
-#!/usr/bin/with-contenv /bin/sh
-
-sed -i "s@%CAKEBOX_ROOT%@${CAKEBOX_ROOT:-"/usr/share/cakebox/"}@g" /etc/nginx/conf.d/cakebox.conf

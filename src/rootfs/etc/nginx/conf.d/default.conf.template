@@ -9,7 +9,7 @@ server {
     }
 
     location /access/ {
-        alias %CAKEBOX_ROOT%/;
+        alias ${CAKEBOX_ROOT}/;
         allow all;
         satisfy any;
         add_header Content-Disposition "attachment";
@@ -25,7 +25,7 @@ server {
     }
 
     location @site {
-        fastcgi_pass unix:/run/php-fpm-cakebox.sock;
+        fastcgi_pass 127.0.0.1:9000;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root/index.php;
         fastcgi_param APPLICATION_ENV production;

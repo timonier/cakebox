@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+export CAKEBOX_ROOT="${CAKEBOX_ROOT:-/usr/share/cakebox/public}"
+
+envsubst "\${CAKEBOX_ROOT}" < "/etc/nginx/conf.d/default.conf.template" > /etc/nginx/conf.d/default.conf
