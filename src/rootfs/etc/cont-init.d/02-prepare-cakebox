@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+
+sed --in-place "s@%CAKEBOX_ROOT%@${CAKEBOX_ROOT:-/opt/cakebox/}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%CAKEBOX_ACCESS%@${CAKEBOX_ACCESS:-/access/}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%CAKEBOX_LANGUAGE%@${CAKEBOX_LANGUAGE:-en}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%DIRECTORY_IGNORE_DOTFILES%@${DIRECTORY_IGNORE_DOTFILES:-TRUE}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%DIRECTORY_IGNORE%@${DIRECTORY_IGNORE:-//}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%PLAYER_DEFAULT_TYPE%@${PLAYER_DEFAULT_TYPE:-html5}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%PLAYER_AUTO_PLAY%@${PLAYER_AUTO_PLAY:-FALSE}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%RIGHTS_CAN_PLAY_MEDIA%@${RIGHTS_CAN_PLAY_MEDIA:-TRUE}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%RIGHTS_CAN_DOWNLOAD_FILE%@${RIGHTS_CAN_DOWNLOAD_FILE:-TRUE}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%RIGHTS_CAN_ARCHIVE_DIRECTORY%@${RIGHTS_CAN_ARCHIVE_DIRECTORY:-FALSE}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%RIGHTS_CAN_DELETE%@${RIGHTS_CAN_DELETE:-FALSE}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%BS_LOGIN%@${BS_LOGIN}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%BS_PASSWORD%@${BS_PASSWORD}@g" /opt/cakebox/config/default.php
+sed --in-place "s@%BS_API_KEY%@${BS_API_KEY}@g" /opt/cakebox/config/default.php

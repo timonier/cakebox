@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+export CAKEBOX_ROOT="${CAKEBOX_ROOT:-/opt/cakebox/public}"
+
+envsubst '${CAKEBOX_ROOT}' < /etc/nginx/sites-available/default.template > /etc/nginx/sites-enabled/default

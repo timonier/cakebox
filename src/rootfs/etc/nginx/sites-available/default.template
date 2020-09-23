@@ -2,7 +2,10 @@ server {
     listen *:80 default_server;
     server_name _;
 
-    root /usr/share/cakebox/public;
+    access_log syslog:server=unix:/dev/log,facility=daemon;
+    error_log syslog:server=unix:/dev/log,facility=daemon;
+
+    root /opt/cakebox/public;
 
     location / {
         try_files $uri $uri/ @site;
